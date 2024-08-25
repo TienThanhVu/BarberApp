@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SiginActivity">
+    tools:context=".SignUp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +21,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Sign In"
             android:layout_marginTop="100dp"
+            android:text="Sign Up"
             android:textColor="#03A9F4"
             android:textSize="40dp"
             android:textStyle="bold" />
@@ -30,11 +30,12 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Welcome Back"
+            android:text="Welcome to you"
             android:textColor="#03A9F4"
             android:textSize="20dp"
             android:textStyle="bold" />
 
+        <!--Email-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -49,6 +50,7 @@
                 android:inputType="textEmailAddress" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--password-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
@@ -64,6 +66,22 @@
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
 
+        <!--password again-->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:passwordToggleEnabled="true">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/confirmPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Confirm password"
+                android:inputType="textPassword" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <ProgressBar
             android:id="@+id/progressGone"
             android:layout_width="wrap_content"
@@ -71,45 +89,41 @@
             android:visibility="gone" />
 
         <Button
-            android:id="@+id/Signin"
+            android:id="@+id/signup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:background="@drawable/rounded_button"
-            android:text="Sign In" />
+            android:text="Sign Up" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            android:paddingLeft="30dp"
-            android:paddingRight="5dp">
-
+            android:paddingLeft="50dp"
+            android:paddingRight="50dp"
+            android:layout_marginTop="30dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="Don't have an account?"
+                android:layout_marginLeft="30dp"
+                android:text="I have an account? "
                 android:textSize="17dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/Signup"
-                android:layout_width="wrap_content"
+                android:id="@+id/signin"
+                android:layout_width="75dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text=" Sign Up"
+                android:text="  Sign In"
                 android:textColor="#03A9F4"
                 android:textSize="17dp"
                 android:textStyle="bold" />
+
         </LinearLayout>
 
     </LinearLayout>
-
 </androidx.constraintlayout.widget.ConstraintLayout>

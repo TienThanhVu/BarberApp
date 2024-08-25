@@ -15,12 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class SiginActivity extends AppCompatActivity {
+public class SignIn extends AppCompatActivity {
     TextInputEditText editTextEmail, editTextPassword;
     private FirebaseAuth mAuth;
     ProgressBar progressBar;
@@ -30,7 +29,12 @@ public class SiginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.signin);
+        // Ẩn ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         textViewSignUp = findViewById(R.id.Signup);
         buttonSignIn = findViewById(R.id.Signin);
         editTextEmail = findViewById(R.id.email);
@@ -44,7 +48,7 @@ public class SiginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(SiginActivity.this, HomeActivity.class);
+                Intent intent = new Intent(SignIn.this, Home.class);
                 startActivity(intent);
                 finish();
 
@@ -59,10 +63,6 @@ public class SiginActivity extends AppCompatActivity {
                     editTextPassword.setError("Password is required!");
                     return;
                 }
-                if (password.length() < 6) {
-                    editTextPassword.setError("Password must be >= 6 characters");
-                    return;
-                }
 
                 progressBar.setVisibility(View.VISIBLE);
 
@@ -71,30 +71,31 @@ public class SiginActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         progressBar.setVisibility(View.GONE);
                         if (task.isSuccessful()) {
-                            Toast.makeText(SiginActivity.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
-                            startActivity(new Intent(SiginActivity.this, HomeActivity.class));
+                            Toast.makeText(SignIn.this, "Sign In Successful", Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(SignIn.this, Home.class));
                         } else {
-                            Toast.makeText(SiginActivity.this, "Sign In Failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignIn.this, "Sign In Failed: Passwords or Email do not match!" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
             }
         });
-//        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(SiginActivity.this, SignupActivity.class));
-//            }
-//        });
-//        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Chuyển đến SignupActivity khi ấn vào TextView signup
-//                Intent in = new Intent(SiginActivity.this, SignupActivity.class);
-//                Intent intent = new Intent(SiginActivity.this, SignupActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        // Xử lý sự kiện khi người dùng nhấn vào "Sign Up"
+        textViewSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignIn.this, SignUp.class));
+            }
+        });
 
+        // Chuyển đến HomeActivity nếu không cần nhập thông tin (phục vụ cho mục đích thử nghiệm)
+        buttonSignIn.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                startActivity(new Intent(SignIn.this, Home.class));
+                finish();
+                return true;
+            }
+        });
     }
 }

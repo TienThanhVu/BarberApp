@@ -1,7 +1,5 @@
 package com.example.barbershop;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -22,7 +20,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 
-public class SignupActivity extends AppCompatActivity {
+public class SignUp extends AppCompatActivity {
     TextInputEditText editTextEmail, editTextPassword, editTextConfirmPassword;
     Button buttonSignUp;
     FirebaseAuth mAuth;
@@ -32,7 +30,11 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup);
+        setContentView(R.layout.signup);
+        // Ẩn ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
 
         textViewSignIn = findViewById(R.id.signin);
         textViewSignIn.setOnClickListener(new View.OnClickListener() {
@@ -40,10 +42,11 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 // Chuyển đến SignupActivity khi ấn vào TextView signup
 
-                Intent intent = new Intent(SignupActivity.this, SiginActivity.class);
+                Intent intent = new Intent(SignUp.this, SignIn.class);
                 startActivity(intent);
             }
         });
+
         editTextEmail = findViewById(R.id.email);
         editTextPassword = findViewById(R.id.password);
         editTextConfirmPassword = findViewById(R.id.confirmPassword);
@@ -56,6 +59,7 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString().trim();
                 String password = editTextPassword.getText().toString().trim();
+                String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email)) {
                     editTextEmail.setError("Email is required!");
@@ -65,7 +69,11 @@ public class SignupActivity extends AppCompatActivity {
                     editTextPassword.setError("Password is required!");
                 }
                 if (password.length() < 6) {
-                    editTextPassword.setError("Password must be >= 6 characters");
+                    editTextPassword.setError("Your password must be longer than 5 characters!");
+                }
+                if (!password.equals(confirmPassword)) {
+                    editTextConfirmPassword.setError("Passwords do not match!");
+                    return;
                 }
 
                 progressBar.setVisibility(View.VISIBLE);
@@ -76,27 +84,15 @@ public class SignupActivity extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressBar.setVisibility(View.GONE);
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(SignupActivity.this, "User created", Toast.LENGTH_SHORT).show();
-                                    startActivity(new Intent(SignupActivity.this, SiginActivity.class));
+                                    Toast.makeText(SignUp.this, "User created", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(SignUp.this, SignIn.class));
                                     finish();
                                 } else {
                                     // Xử lý lỗi
-                                    Toast.makeText(SignupActivity.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(SignUp.this, "Error: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-//            }
-//        });
-//        textViewSignIn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(SignupActivity.this, SigninActivity.class));
-//                finish();
-//            }
-//        });
-//        }
-//            }
-//        });
             }
         });
     }

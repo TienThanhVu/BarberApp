@@ -6,6 +6,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
+        classpath 'com.android.tools.build:gradle:8.5.1' // Hoặc phiên bản mới nhất
         classpath 'com.google.gms:google-services:4.4.2' // Phiên bản Google Services Plugin
     }
 }
