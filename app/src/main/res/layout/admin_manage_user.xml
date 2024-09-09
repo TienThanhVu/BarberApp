@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminManageUser">
+
+    <!-- RecyclerView để hiển thị danh sách người dùng -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewUsers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutUserActions"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_user" />
+
+    <!-- Layout (Thêm, Sửa, Xóa, Thay đổi Vai trò) -->
+    <LinearLayout
+        android:id="@+id/layoutUserActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutUserForm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonAddUser"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="thêm User"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEditUser"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/buttonEditUser"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="Sửa User"
+            app:layout_constraintEnd_toStartOf="@+id/buttonDeleteUser"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/buttonDeleteUser"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="30dp"
+            android:text="Xóa User"
+            app:layout_constraintEnd_toStartOf="@+id/buttonChangeRole"
+            app:layout_constraintHorizontal_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Layout (Add/Edit) -->
+    <LinearLayout
+        android:id="@+id/layoutUserForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/editTextUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email" />
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password" />
+
+
+        <Spinner
+            android:id="@+id/spinnerRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/roles_array" />
+
+    </LinearLayout>
+
+    <!-- Layout for confirmation dialog (Delete) -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonConfirmDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm Delete"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

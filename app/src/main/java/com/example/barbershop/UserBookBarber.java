@@ -12,20 +12,20 @@ import android.widget.TimePicker;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
-public class BookBarber extends AppCompatActivity {
-    String[] branches = {
-            "84 Lê Lợi, Q1, TP.HCM",
-            "120 Quang Trung, Q. Gò Vấp, TP.HCM",
-            "19 Linh Đông, TP. Thủ Đức, TP.HCM"
-    };
+public class UserBookBarber extends AppCompatActivity {
     Button dateButton;
     Button timeButton;
+    Button adressButton;
+    List<String> branchesList = new ArrayList<>(); // Danh sách chi nhánh từ Firestore
+    FirebaseFirestore db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,30 +37,40 @@ public class BookBarber extends AppCompatActivity {
             getSupportActionBar().hide();
         }
 
+
         // Khai báo biến Button
-        Button adressButton = findViewById(R.id.adressButton);
+        adressButton = findViewById(R.id.adressButton);
         dateButton = findViewById(R.id.dateButton);
         timeButton = findViewById(R.id.timeButton);
 
-        // Thiết lập sự kiện cho Button
+        db = FirebaseFirestore.getInstance();
+
+        // Load danh sách chi nhánh từ Firestore
+        loadBranchesFromFirestore();
+
         adressButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Tạo AlertDialog để hiển thị các chi nhánh
-                AlertDialog.Builder builder = new AlertDialog.Builder(BookBarber.this);
-                builder.setTitle("Chọn chi nhánh");
+                if (!branchesList.isEmpty()) {
+                    // Chuyển danh sách thành mảng String[] để sử dụng trong AlertDialog
+                    String[] branchesArray = branchesList.toArray(new String[0]);
 
-                // Thiết lập danh sách chi nhánh trong AlertDialog
-                builder.setItems(branches, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Cập nhật chi nhánh đã chọn lên Button
-                        adressButton.setText(branches[which]);
-                    }
-                });
+                    // Tạo AlertDialog để hiển thị các chi nhánh
+                    AlertDialog.Builder builder = new AlertDialog.Builder(UserBookBarber.this);
+                    builder.setTitle("Chọn chi nhánh");
 
-                // Hiển thị AlertDialog
-                builder.show();
+                    // Thiết lập danh sách chi nhánh trong AlertDialog
+                    builder.setItems(branchesArray, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Cập nhật chi nhánh đã chọn lên Button
+                            adressButton.setText(branchesArray[which]);
+                        }
+                    });
+
+                    // Hiển thị AlertDialog
+                    builder.show();
+                }
             }
         });
 
@@ -75,21 +85,21 @@ public class BookBarber extends AppCompatActivity {
 
                 // Tạo DatePickerDialog
                 DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        BookBarber.this,
+                        UserBookBarber.this,
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
-                            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                // Khi người dùng chọn ngày, cập nhật text cho dateButton1
-                                String selectedDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                // Khi người dùng chọn ngày, cập nhật text cho dateButton
+                                String selectedDate = String.format("%02d/%02d/%d", dayOfMonth, month + 1, year);
                                 dateButton.setText(selectedDate);
                             }
                         },
                         year, month, day);
+
                 // Hiển thị DatePickerDialog
                 datePickerDialog.show();
             }
         });
-
 
         timeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +111,7 @@ public class BookBarber extends AppCompatActivity {
 
                 // Tạo TimePickerDialog
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        BookBarber.this,
+                        UserBookBarber.this,
                         new TimePickerDialog.OnTimeSetListener() {
                             @Override
                             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -116,5 +126,24 @@ public class BookBarber extends AppCompatActivity {
                 timePickerDialog.show();
             }
         });
+    }
+
+    // phương thức loadBranchesFromFirestore
+    private void loadBranchesFromFirestore() {
+        // Truy vấn từ bộ sưu tập "stores" để lấy danh sách chi nhánh
+        db.collection("stores")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        branchesList.clear(); // Xóa danh sách cũ
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            // Lấy địa chỉ từ mỗi cửa hàng và thêm vào danh sách
+                            String branchAddress = document.getString("address");
+                            if (branchAddress != null) {
+                                branchesList.add(branchAddress);
+                            }
+                        }
+                    }
+                });
     }
 }

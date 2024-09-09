@@ -6,7 +6,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".BookBarber">
+    tools:context=".UserBookBarber">
 
   <!--Header-->
   <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,28 +19,16 @@
 
     <TextView
         android:id="@+id/txtHello"
-        android:layout_width="54dp"
+        android:layout_width="100dp"
         android:layout_height="41dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
-        android:text="hello"
+        android:text="Đặt lịch"
         android:textColor="@color/white"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/txtUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="10dp"
-        android:text="Vũ Tiến Thành"
-        android:textColor="@color/white"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@id/txtHello"
-        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/imgList"
@@ -251,7 +239,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="24dp"
-            android:text="Book date"
+            android:text="Chọn lịch sử dụng dịch vụ"
             android:textColor="#000"
             android:textSize="20sp"
             android:textStyle="bold" />
@@ -280,7 +268,7 @@
                   android:layout_height="match_parent"
                   android:layout_weight="1"
                   android:backgroundTint="#ECECEC"
-                  android:text="select adress"
+                  android:text="chọn chi nhánh"
                   android:textColor="#000" />
           </LinearLayout>
 
@@ -299,7 +287,7 @@
               android:layout_height="wrap_content"
               android:layout_weight="1"
               android:backgroundTint="#ECECEC"
-              android:text="select date"
+              android:text="chọn ngày"
               android:textColor="#000" />
 
           <Button
@@ -309,7 +297,7 @@
               android:layout_marginStart="8dp"
               android:layout_weight="1"
               android:backgroundTint="#ECECEC"
-              android:text="select time"
+              android:text="chọn giờ"
               android:textColor="#000" />
         </LinearLayout>
 
@@ -332,7 +320,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="#4285F4"
-            android:text="Search"
+            android:text="tìm kiếm"
             android:textColor="#FFF" />
 
       </LinearLayout>

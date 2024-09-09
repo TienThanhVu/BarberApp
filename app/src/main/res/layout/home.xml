@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Home">
+    tools:context=".UserHome">
 
     <!--Header-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
             android:layout_marginTop="10dp"
-            android:text="Vũ Tiến Thành"
+            android:text=""
             android:textColor="@color/white"
             android:textSize="25sp"
             android:textStyle="bold"

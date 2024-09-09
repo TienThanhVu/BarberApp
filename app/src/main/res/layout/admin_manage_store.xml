@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminManageStore">
+
+    <!-- RecyclerView để hiển thị danh sách cửa hàng -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewBarbers"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBarberActions"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:listitem="@layout/item_store" />
+
+    <!-- Layout (Thêm, Sửa, Xóa) -->
+    <LinearLayout
+        android:id="@+id/layoutBarberActions"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBarberForm"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <Button
+            android:id="@+id/buttonAddBarber"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="Thêm"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEditBarber"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/buttonEditBarber"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:text="Sửa"
+            app:layout_constraintEnd_toStartOf="@+id/buttonDeleteBarber"
+            app:layout_constraintHorizontal_weight="1" />
+
+        <Button
+            android:id="@+id/buttonDeleteBarber"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Xóa"
+            app:layout_constraintEnd_toStartOf="@+id/buttonChangeRole"
+            app:layout_constraintHorizontal_weight="1" />
+
+    </LinearLayout>
+
+    <!-- Layout (Add/Edit) -->
+    <LinearLayout
+        android:id="@+id/layoutBarberForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/editTextBarberAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Địa chỉ" />
+
+        <EditText
+            android:id="@+id/editTextBarberPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số điện thoại" />
+
+    </LinearLayout>
+
+    <!-- Layout for confirmation dialog (Delete) -->
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/buttonConfirmDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xác nhận xóa"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
