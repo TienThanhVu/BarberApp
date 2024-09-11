@@ -163,7 +163,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Quản lý cửa hàng"
+                    android:text="Quản lý địa điểm"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -289,13 +289,13 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_location" />
+                    android:src="@drawable/ic_comment" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Quản lý địa điểm"
+                    android:text="Quản lý đánh giá"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".UserHome">
+    tools:context=".Home">
 
     <!--Header-->
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -115,7 +115,7 @@
                 android:orientation="vertical"
                 android:padding="1dp"
                 app:layout_constraintDimensionRatio="H,1:1"
-                app:layout_constraintEnd_toStartOf="@+id/calendar_history"
+                app:layout_constraintEnd_toStartOf="@+id/history"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
@@ -124,7 +124,8 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_calendar" />
+                    android:src="@drawable/ic_calendar"
+                    app:tint="#2196F3" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -139,7 +140,7 @@
 
             <!-- Xem lịch sử -->
             <LinearLayout
-                android:id="@+id/calendar_history"
+                android:id="@+id/history"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -157,7 +158,8 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_calendar_history" />
+                    android:src="@drawable/ic_calendar_history"
+                    app:tint="#2196F3" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -181,7 +183,7 @@
                 android:orientation="vertical"
                 android:padding="1dp"
                 app:layout_constraintDimensionRatio="H,1:1"
-                app:layout_constraintEnd_toStartOf="@+id/calendar_history"
+                app:layout_constraintEnd_toStartOf="@+id/history"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/calendar">
 
@@ -190,7 +192,8 @@
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_qr" />
+                    android:src="@drawable/ic_qr"
+                    app:tint="#2196F3" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -205,7 +208,7 @@
 
             <!--hỗ trợ-->
             <LinearLayout
-                android:id="@+id/support"
+                android:id="@+id/cart"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="40dp"
@@ -216,20 +219,21 @@
                 app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/calendar"
-                app:layout_constraintTop_toBottomOf="@id/calendar_history">
+                app:layout_constraintTop_toBottomOf="@id/history">
 
                 <ImageView
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginTop="8dp"
                     android:padding="8dp"
-                    android:src="@drawable/ic_support" />
+                    android:src="@drawable/ic_carts"
+                    app:tint="#2196F3" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center"
-                    android:text="Hỗ trợ"
+                    android:text="Đơn hàng"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -244,7 +248,7 @@
                 android:layout_marginLeft="1dp"
                 android:background="@drawable/trending_background"
                 android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="@id/support"
+                app:layout_constraintEnd_toEndOf="@id/cart"
                 app:layout_constraintStart_toStartOf="@id/calendar"
                 app:layout_constraintTop_toBottomOf="@id/qr">
 
@@ -260,6 +264,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <Button
+                    android:id="@+id/buttonBook30s"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
@@ -279,7 +284,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/trending_background2"
                 android:padding="20dp"
-                app:layout_constraintEnd_toEndOf="@id/support"
+                app:layout_constraintEnd_toEndOf="@id/cart"
                 app:layout_constraintStart_toStartOf="@id/calendar"
                 app:layout_constraintTop_toBottomOf="@id/contentPanel">
 

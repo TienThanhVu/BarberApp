@@ -1,0 +1,45 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <TextView
+        android:id="@+id/txtUserName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Người dùng"
+        android:layout_margin="10dp"/>
+
+    <TextView
+        android:id="@+id/txtBranch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chi nhánh " />
+
+    <TextView
+        android:id="@+id/txtBarber"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thợ cắt tóc " />
+
+    <TextView
+        android:id="@+id/txtDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ngày đặt" />
+
+    <TextView
+        android:id="@+id/txtTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Giờ đặt" />
+
+    <TextView
+        android:id="@+id/txtService"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Dịch vụ" />
+
+</LinearLayout>

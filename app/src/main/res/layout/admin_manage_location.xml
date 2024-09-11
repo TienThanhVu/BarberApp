@@ -4,20 +4,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminManageStore">
+    tools:context=".AdminManageLacation">
 
     <!-- RecyclerView để hiển thị danh sách cửa hàng -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBarbers"
+        android:id="@+id/recyclerViewStore"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBarberActions"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBarberForm"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_store" />
+        tools:listitem="@layout/item_location" />
+
+    <LinearLayout
+        android:id="@+id/layoutBarberForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutBarberActions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/editTextBarberAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Địa chỉ" />
+
+        <EditText
+            android:id="@+id/editTextBarberPhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Số điện thoại" />
+
+    </LinearLayout>
 
     <!-- Layout (Thêm, Sửa, Xóa) -->
     <LinearLayout
@@ -25,8 +49,8 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBarberForm"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -58,32 +82,7 @@
 
     </LinearLayout>
 
-    <!-- Layout (Add/Edit) -->
-    <LinearLayout
-        android:id="@+id/layoutBarberForm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <EditText
-            android:id="@+id/editTextBarberAddress"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Địa chỉ" />
-
-        <EditText
-            android:id="@+id/editTextBarberPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Số điện thoại" />
-
-    </LinearLayout>
-
-    <!-- Layout for confirmation dialog (Delete) -->
+    <!--confirmation (Delete) -->
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/buttonConfirmDelete"
         android:layout_width="wrap_content"

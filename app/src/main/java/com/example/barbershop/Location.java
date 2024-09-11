@@ -1,14 +1,14 @@
 package com.example.barbershop;
 
-public class Store {
+public class Location {
     private String id;
     private String address;
     private String phoneNumber;
 
     // Constructor mặc định
-    public Store() {}
+    public Location() {}
 
-    public Store(String name, String address, String phoneNumber, String id, String imageUrl) {
+    public Location(String name, String address, String phoneNumber, String id, String imageUrl) {
         this.id = id;
         this.address = address;
         this.phoneNumber = phoneNumber;

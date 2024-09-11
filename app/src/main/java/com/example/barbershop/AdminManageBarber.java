@@ -1,6 +1,8 @@
 package com.example.barbershop;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,178 +15,201 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminManageBarber extends AppCompatActivity {
+public class AdminManageBarber extends AppCompatActivity{
 
-    private Spinner spinnerStores;
     private RecyclerView recyclerViewBarbers;
-    private EditText editTextBarberName;
-    private Button btnAddBarber;
-    private Button btnDeleteBarber;
-    private FirebaseFirestore db;
-    private List<String> storeList = new ArrayList<>();
-    private List<Barber> barberList = new ArrayList<>();
-    private ArrayAdapter<String> storeAdapter;
     private BarberAdapter barberAdapter;
-    private String selectedStore;
+    private List<Barber> barberList;
+    private FirebaseFirestore db;
+    private Button buttonAddBarber, buttonDeleteBarber;;
+    private EditText editTextBarberName, editTextBarberPhone;
+    private Spinner spinnerStore;
+    private String selectedStoreId;
+    private Barber selectedBarber;
+    private List<String> storeIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_manage_barber);
 
-        spinnerStores = findViewById(R.id.spinnerStores);
+        // Ẩn ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
         recyclerViewBarbers = findViewById(R.id.recyclerViewBarbers);
-        editTextBarberName = findViewById(R.id.editTextBarberAddress);
-        btnAddBarber = findViewById(R.id.btnAddBarber);
-        btnDeleteBarber = findViewById(R.id.btnDeleteBarber);
+        buttonAddBarber = findViewById(R.id.buttonAddBarber);
+        buttonDeleteBarber = findViewById(R.id.buttonDeleteBarber);
+        editTextBarberName = findViewById(R.id.editTextBarberName);
+        editTextBarberPhone = findViewById(R.id.editTextBarberPhone);
+        spinnerStore = findViewById(R.id.spinnerStore);
 
         db = FirebaseFirestore.getInstance();
+        barberList = new ArrayList<>();
 
-        // Set up RecyclerView for barbers
-        barberAdapter = new BarberAdapter(barberList, new BarberAdapter.OnBarberClickListener() {
-            @Override
-            public void onBarberClick(Barber barber) {
-                // Handle barber click
+        // Khởi tạo barberAdapter với OnItemClickListener
+        barberAdapter = new BarberAdapter(barberList, barber -> {
+            selectedBarber = barber;
+            // Hiển thị thông tin của barber đã chọn
+            editTextBarberName.setText(selectedBarber.getName());
+            editTextBarberPhone.setText(selectedBarber.getPhoneNumber());
+            // Cập nhật spinner để chọn cửa hàng tương ứng với barber
+            if (selectedBarber.getStoreId() != null) {
+                int storeIndex = getStoreIndex(selectedBarber.getStoreId());
+                if (storeIndex != -1) {
+                    spinnerStore.setSelection(storeIndex); // Cập nhật spinner
+                }
             }
         });
-        recyclerViewBarbers.setAdapter(barberAdapter);
+
         recyclerViewBarbers.setLayoutManager(new LinearLayoutManager(this));
+        recyclerViewBarbers.setAdapter(barberAdapter); // Gán adapter cho RecyclerView
 
-        // Load stores into spinner
-        loadStores();
+        loadStoreList(); // Load các store vào Spinner
+        loadBarberList(); // Load danh sách barber
 
-        // Listener for store selection
-        spinnerStores.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                selectedStore = storeList.get(position);
-                loadBarbersForStore(selectedStore);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Handle no selection
-            }
-        });
-
-        // Add barber button click listener
-        btnAddBarber.setOnClickListener(v -> {
-            String barberName = editTextBarberName.getText().toString();
-            addBarberToStore(barberName, selectedStore);
-        });
-
-        // Delete barber button click listener
-        btnDeleteBarber.setOnClickListener(v -> {
-            Barber selectedBarber = barberAdapter.getSelectedBarber();
+        buttonAddBarber.setOnClickListener(v -> addBarber());
+        buttonDeleteBarber.setOnClickListener(v -> {
             if (selectedBarber != null) {
-                deleteBarberFromStore(selectedStore, selectedBarber);
+                deleteBarber(selectedBarber);
+            } else {
+                Toast.makeText(this, "Vui lòng chọn thợ cắt tóc để xóa khỏi cửa hàng", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+    }
+
+
+    private void loadStoreList() {
+        CollectionReference storesRef = db.collection("stores");
+        storesRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                List<String> storeNames = new ArrayList<>();
+                storeIds = new ArrayList<>(); // Đảm bảo lưu danh sách ID cửa hàng
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    storeNames.add(document.getString("address"));
+                    storeIds.add(document.getId()); // Lưu ID cửa hàng
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, storeNames);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStore.setAdapter(adapter);
+
+                // Spinner đã được cập nhật
+                //storeIds đã được khởi tạo đầy đủ
+                if (selectedBarber != null && selectedBarber.getStoreId() != null) {
+                    int storeIndex = getStoreIndex(selectedBarber.getStoreId());
+                    if (storeIndex != -1) {
+                        spinnerStore.setSelection(storeIndex);
+                    }
+                }
+
+                spinnerStore.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        selectedStoreId = storeIds.get(position); // Lưu ID của cửa hàng được chọn
+                        loadBarberList(); // Tải danh sách barber theo store đã chọn
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                        selectedStoreId = null;
+                    }
+                });
             }
         });
     }
 
-    private void loadStores() {
-        db.collection("stores")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        storeList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            String storeName = document.getString("name");
-                            storeList.add(storeName);
-                        }
-                        storeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, storeList);
-                        storeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        spinnerStores.setAdapter(storeAdapter);
-                    } else {
-                        // Handle error
+
+    private void loadBarberList() {
+        CollectionReference barbersRef = db.collection("barbers");
+        barbersRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    barberList.clear();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        Barber barber = document.toObject(Barber.class);
+                        barber.setId(document.getId());
+                        barberList.add(barber);
                     }
-                });
+                    if (barberAdapter != null) {
+                        barberAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        });
     }
 
-    private void loadBarbersForStore(String storeName) {
-        db.collection("stores").whereEqualTo("name", storeName)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        barberList.clear();
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            for (DocumentReference barberRef : (List<DocumentReference>) document.get("barbers")) {
-                                barberRef.get().addOnSuccessListener(barberDoc -> {
-                                    Barber barber = barberDoc.toObject(Barber.class);
-                                    barberList.add(barber);
-                                    barberAdapter.notifyDataSetChanged();
-                                });
-                            }
-                        }
-                    } else {
-                        // Handle error
-                    }
-                });
+    private void addBarber() {
+        String name = editTextBarberName.getText().toString();
+        String phoneNumber = editTextBarberPhone.getText().toString();
+        String storeId = selectedStoreId; // Lấy ID store đã chọn từ Spinner
+
+        if (storeId == null) {
+            Toast.makeText(this, "Vui lòng chọn cửa hàng", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(name == null &&  phoneNumber == null){
+            Toast.makeText(this, "Vui lòng nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Barber barber = new Barber(null, name, phoneNumber, storeId);
+        db.collection("barbers").add(barber).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                loadBarberList();
+                // Làm sạch các EditText sau khi thêm barber thành công
+                editTextBarberName.setText("");
+                editTextBarberPhone.setText("");
+                Toast.makeText(this, "Thêm barber thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Lỗi thêm barber", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void addBarberToStore(String barberName, String storeName) {
-        db.collection("barbers").whereEqualTo("name", barberName)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        if (task.getResult().isEmpty()) {
-                            // Barber does not exist
-                            // Handle barber not found case
-                        } else {
-                            Barber barber = task.getResult().getDocuments().get(0).toObject(Barber.class);
-                            db.collection("stores").whereEqualTo("name", storeName)
-                                    .get()
-                                    .addOnCompleteListener(storeTask -> {
-                                        if (storeTask.isSuccessful()) {
-                                            for (QueryDocumentSnapshot document : storeTask.getResult()) {
-                                                DocumentReference storeRef = document.getReference();
-                                                storeRef.collection("barbers").document(barber.getId()).set(barber)
-                                                        .addOnSuccessListener(aVoid -> {
-                                                            Toast.makeText(this, "Thêm barber thành công", Toast.LENGTH_SHORT).show();
-                                                            // Barber added successfully
-                                                        })
-                                                        .addOnFailureListener(e -> {
-                                                            // Handle error
-                                                        });
-                                            }
-                                        } else {
-                                            // Handle error
-                                        }
-                                    });
-                        }
-                    } else {
-                        // Handle error
-                    }
-                });
+
+    private void deleteBarber(Barber barber) {
+        String barberId = barber.getId(); // ID của barber cần xóa
+
+        db.collection("barbers").document(barberId).delete().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                loadBarberList();
+                // Làm sạch các EditText sau khi thêm barber thành công
+                editTextBarberName.setText("");
+                editTextBarberPhone.setText("");
+                Toast.makeText(this, "Xóa barber thành công", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Lỗi xóa barber", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
-    private void deleteBarberFromStore(String storeName, Barber barber) {
-        db.collection("stores").whereEqualTo("name", storeName)
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : task.getResult()) {
-                            DocumentReference storeRef = document.getReference();
-                            storeRef.collection("barbers").document(barber.getId()).delete()
-                                    .addOnSuccessListener(aVoid -> {
-                                        // Barber deleted successfully
-                                        Toast.makeText(this, "Xóa barber thành công", Toast.LENGTH_SHORT).show();
-                                        loadBarbersForStore(storeName); // Refresh the list
-                                    })
-                                    .addOnFailureListener(e -> {
-                                        // Handle error
-                                    });
-                        }
-                    } else {
-                        // Handle error
-                    }
-                });
+    //Phương thức này sẽ tìm chỉ số của cửa hàng trong danh sách các cửa hàng dựa trên storeId
+    private int getStoreIndex(String storeId) {
+        if (storeIds != null) {
+            for (int i = 0; i < storeIds.size(); i++) {
+                if (storeIds.get(i).equals(storeId)) {
+                    return i;
+                }
+            }
+        }
+        return -1; // Trả về -1 nếu không tìm thấy
     }
 }

@@ -51,7 +51,7 @@ public class AdminHome extends AppCompatActivity {
         storeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AdminHome.this, AdminManageStore.class);
+                Intent intent = new Intent(AdminHome.this, AdminManageLacation.class);
                 startActivity(intent);
             }
         });
@@ -82,6 +82,8 @@ public class AdminHome extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Chuyển đến VoucherManagementActivity
+                Intent intent = new Intent(AdminHome.this, AdminManageVoucher.class);
+                startActivity(intent);
             }
         });
 

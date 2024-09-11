@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,11 +19,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AdminManageStore extends AppCompatActivity implements StoreAdapter.OnItemClickListener{
+public class AdminManageLacation extends AppCompatActivity implements LocationAdapter.OnItemClickListener{
 
     private RecyclerView recyclerViewBarbers;
-    private StoreAdapter storeAdapter;
-    private List<Store> storeList;
+    private LocationAdapter storeAdapter;
+    private List<Location> storeList;
     private FirebaseFirestore db;
     private Button buttonAddBarber, buttonEditBarber, buttonDeleteBarber, buttonConfirmDelete;
     private EditText editTextBarberAddress, editTextBarberPhone;
@@ -35,14 +34,14 @@ public class AdminManageStore extends AppCompatActivity implements StoreAdapter.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.admin_manage_store);
+        setContentView(R.layout.admin_manage_location);
 
         // Ẩn ActionBar
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        recyclerViewBarbers = findViewById(R.id.recyclerViewBarbers);
+        recyclerViewBarbers = findViewById(R.id.recyclerViewStore);
         buttonAddBarber = findViewById(R.id.buttonAddBarber);
         buttonEditBarber = findViewById(R.id.buttonEditBarber);
         buttonDeleteBarber = findViewById(R.id.buttonDeleteBarber);
@@ -53,7 +52,7 @@ public class AdminManageStore extends AppCompatActivity implements StoreAdapter.
 
         db = FirebaseFirestore.getInstance();
         storeList = new ArrayList<>();
-        storeAdapter = new StoreAdapter(storeList, this);
+        storeAdapter = new LocationAdapter(storeList, this);
 
         recyclerViewBarbers.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewBarbers.setAdapter(storeAdapter);
@@ -85,7 +84,7 @@ public class AdminManageStore extends AppCompatActivity implements StoreAdapter.
 
     // Phương thức onItemClick từ StoreAdapter.OnItemClickListener
     @Override
-    public void onItemClick(Store store) {
+    public void onItemClick(Location store) {
         // Khi một item được chọn, điền thông tin của store vào form để chỉnh sửa
         selectedStoreId = store.getId();
         editTextBarberAddress.setText(store.getAddress());
@@ -101,7 +100,7 @@ public class AdminManageStore extends AppCompatActivity implements StoreAdapter.
                 if (task.isSuccessful()) {
                     storeList.clear();
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        Store store = document.toObject(Store.class);
+                        Location store = document.toObject(Location.class);
                         store.setId(document.getId());
                         storeList.add(store);
                     }
@@ -114,7 +113,8 @@ public class AdminManageStore extends AppCompatActivity implements StoreAdapter.
     private void addStore() {
         String address = editTextBarberAddress.getText().toString();
         String phoneNumber = editTextBarberPhone.getText().toString();
-        Store store = new Store(null, address, phoneNumber, null, null);
+
+        Location store = new Location(null, address, phoneNumber, null, null);
         db.collection("stores").add(store).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 // Lấy ID của tài liệu vừa được tạo

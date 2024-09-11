@@ -13,7 +13,7 @@
         android:layout_height="0dp"
         android:scrollbars="vertical"
         android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutUserActions"
+        app:layout_constraintBottom_toTopOf="@+id/layoutUserForm"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -21,12 +21,47 @@
 
     <!-- Layout (Thêm, Sửa, Xóa, Thay đổi Vai trò) -->
     <LinearLayout
+        android:id="@+id/layoutUserForm"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/layoutUserActions"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <EditText
+            android:id="@+id/editTextUserName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Username" />
+        <EditText
+            android:id="@+id/editTextEmail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email" />
+        <EditText
+            android:id="@+id/editTextPassword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Password" />
+
+        <Spinner
+            android:id="@+id/spinnerRole"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/roles_array" />
+
+    </LinearLayout>
+
+    <!-- Layout (Add/Edit) -->
+    <LinearLayout
         android:id="@+id/layoutUserActions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutUserForm"
+        android:padding="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -56,42 +91,6 @@
             android:text="Xóa User"
             app:layout_constraintEnd_toStartOf="@+id/buttonChangeRole"
             app:layout_constraintHorizontal_weight="1" />
-
-    </LinearLayout>
-
-    <!-- Layout (Add/Edit) -->
-    <LinearLayout
-        android:id="@+id/layoutUserForm"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <EditText
-            android:id="@+id/editTextUserName"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username" />
-        <EditText
-            android:id="@+id/editTextEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email" />
-        <EditText
-            android:id="@+id/editTextPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password" />
-
-
-        <Spinner
-            android:id="@+id/spinnerRole"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/roles_array" />
 
     </LinearLayout>
 

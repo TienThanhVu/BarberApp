@@ -2,15 +2,17 @@ package com.example.barbershop;
 
 public class Barber {
     private  String id;
-    private  String fullname;
-    private  String email;
+    private  String name;
+    private String storeId;
+    private String phoneNumber;
 
     public Barber(){}
 
-    public Barber(String id, String fullname, String email) {
+    public Barber(String id, String name, String phoneNumber, String storeId) {
         this.id = id;
-        this.fullname = fullname;
-        this.email = email;
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.storeId = storeId;
     }
 
     public String getId() {
@@ -21,19 +23,28 @@ public class Barber {
         this.id = id;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getName() {
+        return name;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public String getStoreId() {
+        return storeId;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setStoreId(String storeId) {
+        this.storeId = storeId;
     }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
 }

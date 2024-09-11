@@ -1,24 +1,49 @@
 package com.example.barbershop;
 
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
-public class Profile extends AppCompatActivity {
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+public class Profile extends Fragment {
+    private FirebaseFirestore db;
+    private FirebaseAuth auth;
+    private TextView txtUsername;
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        // Inflate layout for this fragment
+        return inflater.inflate(R.layout.profile, container, false);
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.profile);
-        // Ẩn ActionBar
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().hide();
-        }
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        db = FirebaseFirestore.getInstance();
+        auth = FirebaseAuth.getInstance();
+        txtUsername = view.findViewById(R.id.txtUsername);
+
+        // Lấy thông tin người dùng
+        String userId = auth.getCurrentUser().getUid();
+        db.collection("users").document(userId).get()
+                .addOnSuccessListener(documentSnapshot -> {
+                    if (documentSnapshot.exists()) {
+                        String fullname = documentSnapshot.getString("fullname");
+                        txtUsername.setText(fullname);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    // Xử lý lỗi
+                });
     }
 }

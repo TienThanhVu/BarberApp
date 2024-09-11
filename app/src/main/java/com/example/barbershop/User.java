@@ -12,8 +12,9 @@ public class User {
     }
 
     // Constructor có tham số
-    public User(String email, String role) {
+    public User(String email, String role, String fullname) {
         this.email = email;
+        this.fullname = fullname;
         this.role = role;
     }
 

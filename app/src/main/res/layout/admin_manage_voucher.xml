@@ -4,58 +4,66 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AdminManageBarber">
+    tools:context=".AdminManageVoucher">
 
     <!-- RecyclerView để hiển thị danh sách cửa hàng -->
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewBarbers"
+        android:id="@+id/recyclerViewVoucher"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:scrollbars="vertical"
-        android:padding="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBarberForm"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/layoutVoucherForm"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:listitem="@layout/item_barber" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:listitem="@layout/item_voucher" />
 
     <LinearLayout
-        android:id="@+id/layoutBarberForm"
+        android:id="@+id/layoutVoucherForm"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/layoutBarberActions"
+        app:layout_constraintBottom_toTopOf="@+id/layoutVoucherActions"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <Spinner
-            android:id="@+id/spinnerStore"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/roles_array" />
-
         <EditText
-            android:id="@+id/editTextBarberName"
+            android:id="@+id/editTexVoucherCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Tên barber" />
+            android:hint="Code" />
 
         <EditText
-            android:id="@+id/editTextBarberPhone"
+            android:id="@+id/editTextVoucherPercent"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:hint="Số điện thoại" />
+            android:hint="%" />
+
+        <EditText
+            android:id="@+id/editTextVoucherNote"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="Ghi chú" />
+
+        <EditText
+            android:id="@+id/editTextVoucherExDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:hint="ngày hết voucher"
+            android:inputType="date"/>
 
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/layoutBarberActions"
+        android:id="@+id/layoutVoucherActions"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:padding="16dp"
         android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -63,20 +71,28 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
-            android:id="@+id/buttonAddBarber"
-            android:layout_width="100dp"
+            android:id="@+id/buttonAddVoucher"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
-            android:text="Thêm barber"
+            android:text="Thêm Voucher"
             app:layout_constraintEnd_toStartOf="@+id/buttonEditBarber"
             app:layout_constraintHorizontal_weight="1"
             tools:layout_editor_absoluteY="660dp" />
 
         <Button
-            android:id="@+id/buttonDeleteBarber"
-            android:layout_width="100dp"
+            android:id="@+id/buttonEditVoucher"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Xóa barber"
+            android:text="Sửa  Voucher"
+            app:layout_constraintEnd_toStartOf="@+id/buttonEditBarber"
+            app:layout_constraintHorizontal_weight="1"
+            tools:layout_editor_absoluteY="660dp" />
+
+        <Button
+            android:id="@+id/buttonDeleteVoucher"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Xóa Voucher"
             app:layout_constraintEnd_toStartOf="@+id/buttonChangeRole"
             app:layout_constraintHorizontal_weight="1"
             tools:layout_editor_absoluteY="660dp" />

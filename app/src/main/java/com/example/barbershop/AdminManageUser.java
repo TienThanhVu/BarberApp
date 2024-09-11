@@ -60,9 +60,12 @@ public class AdminManageUser extends AppCompatActivity {
         editTextPassword = findViewById(R.id.editTextPassword);
         spinnerRole = findViewById(R.id.spinnerRole);
 
+
         // Gán OnItemClickListener cho UserAdapter
         userAdapter.setOnItemClickListener(user -> {
             selectedUser = user;
+            editTextUserName.setText(selectedUser.getFullname());
+            editTextEmail.setText(selectedUser.getEmail());
             Toast.makeText(AdminManageUser.this, "Chọn user: " + user.getEmail(), Toast.LENGTH_SHORT).show();
         });
 
@@ -206,7 +209,7 @@ public class AdminManageUser extends AppCompatActivity {
             return;
         }
 
-// Tạo người dùng mới với Firebase Authentication
+        // Tạo người dùng mới với Firebase Authentication
         FirebaseAuth auth = FirebaseAuth.getInstance();
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, task -> {

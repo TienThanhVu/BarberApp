@@ -77,6 +77,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserViewHolder
             super(itemView);
             imageUser = itemView.findViewById(R.id.imageUser);
             textViewUserInfo = itemView.findViewById(R.id.textUserInfo);
+            // Ánh xạ các TextView
+            userNameTextView = itemView.findViewById(R.id.editTextUserName);
+            userEmailTextView = itemView.findViewById(R.id.editTextEmail);
         }
 
         public void bind(final User user, final OnItemClickListener listener) {

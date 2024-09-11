@@ -87,7 +87,7 @@ public class SignIn extends AppCompatActivity {
                                             else {
                                                 // người dùng là user
                                                 Toast.makeText(SignIn.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(SignIn.this, UserHome.class)); // Màn hình user
+                                                startActivity(new Intent(SignIn.this, Home.class)); // Màn hình user
                                                 finish();
                                             }
                                         }
