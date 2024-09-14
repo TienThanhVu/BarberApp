@@ -54,10 +54,14 @@ public class UserCart extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
+                            Log.d("UserCart", "DocumentSnapshot data: " + document.getData());
                             Booking booking = document.toObject(Booking.class);
                             bookingList.add(booking);
                         }
                         adapter.notifyDataSetChanged();  // Cập nhật dữ liệu cho RecyclerView
+                    } else {
+                        Log.e("UserCart", "Error getting documents.", task.getException());
+                        Toast.makeText(UserCart.this, "Lỗi khi tải dữ liệu đơn hàng", Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -86,8 +90,6 @@ public class UserCart extends AppCompatActivity {
                             db.collection("bookings").document(bookingId)
                                     .delete()
                                     .addOnSuccessListener(aVoid -> {
-                                        // Thêm thông tin hủy vào lịch sử
-                                        addCancellationToHistory(selectedBooking);
 
                                         // Cập nhật danh sách và giao diện người dùng
                                         bookingList.remove(position);
@@ -143,30 +145,6 @@ public class UserCart extends AppCompatActivity {
             e.printStackTrace();
             return false;
         }
-    }
-
-    private void addCancellationToHistory(Booking booking) {
-        // Tạo ID ngẫu nhiên cho lịch sử hủy
-        String historyId = UUID.randomUUID().toString();
-
-        // Tạo đối tượng lịch sử hủy
-        Map<String, Object> cancellationHistory = new HashMap<>();
-        cancellationHistory.put("bookingId", booking.getId());
-        cancellationHistory.put("userName", booking.getUserName());
-        cancellationHistory.put("branch", booking.getBranchId());
-        cancellationHistory.put("barber", booking.getBarberName());
-        cancellationHistory.put("date", booking.getDate());
-        cancellationHistory.put("time", booking.getTime());
-        cancellationHistory.put("service", booking.getService());
-        cancellationHistory.put("voucher", booking.getVoucher());
-        cancellationHistory.put("address", booking.getAddress());
-        cancellationHistory.put("cancellationDate", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Calendar.getInstance().getTime()));
-
-        // Lưu vào Firestore
-        db.collection("cancellation_history").document(historyId)
-                .set(cancellationHistory)
-                .addOnSuccessListener(aVoid -> Log.d("UserCart", "Cancellation history added successfully"))
-                .addOnFailureListener(e -> Log.e("UserCart", "Error adding cancellation history", e));
     }
 
 }

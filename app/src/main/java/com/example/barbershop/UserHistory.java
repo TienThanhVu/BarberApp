@@ -42,7 +42,7 @@ public class UserHistory extends AppCompatActivity {
         Log.d("UserHistory", "Loading history for booking ID: " + bookingId);
 
         // Truy cập vào stores, sau đó là documents của bookings
-        db.collection("stores").document(bookingId).collection("history")
+        db.collection("stores").document(bookingId).collection("cancellation_history")
                 .orderBy("timestamp", Query.Direction.DESCENDING)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {

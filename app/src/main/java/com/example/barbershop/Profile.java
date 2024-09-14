@@ -1,37 +1,31 @@
 package com.example.barbershop;
 
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
-public class Profile extends Fragment {
+public class Profile extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
     private TextView txtUsername;
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        // Inflate layout for this fragment
-        return inflater.inflate(R.layout.profile, container, false);
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.profile);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        txtUsername = view.findViewById(R.id.txtUsername);
+        txtUsername = findViewById(R.id.txtUsername);
 
         // Lấy thông tin người dùng
         String userId = auth.getCurrentUser().getUid();
@@ -40,10 +34,13 @@ public class Profile extends Fragment {
                     if (documentSnapshot.exists()) {
                         String fullname = documentSnapshot.getString("fullname");
                         txtUsername.setText(fullname);
+                    } else {
+                        Toast.makeText(this, "Thông tin người dùng không tồn tại", Toast.LENGTH_SHORT).show();
                     }
                 })
                 .addOnFailureListener(e -> {
                     // Xử lý lỗi
+                    Toast.makeText(this, "Lỗi khi lấy thông tin người dùng", Toast.LENGTH_SHORT).show();
                 });
     }
 }
