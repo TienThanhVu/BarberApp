@@ -10,36 +10,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Người dùng"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:textColor="@color/purple_700"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/txtBranch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chi nhánh " />
+        android:text="Chi nhánh "
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txtBarber"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thợ cắt tóc " />
+        android:text="Thợ cắt tóc "
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txtDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Ngày đặt" />
+        android:text="Ngày đặt"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txtTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Giờ đặt" />
+        android:text="Giờ đặt"
+        android:textColor="@color/black"/>
 
     <TextView
         android:id="@+id/txtService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Dịch vụ" />
+        android:text="Dịch vụ"
+        android:textColor="@color/black"/>
 
 </LinearLayout>

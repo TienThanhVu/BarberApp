@@ -44,16 +44,11 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         holder.txtService.setText("Dịch vụ: " + booking.getService());
         holder.txtUserName.setText("Người dùng: " + booking.getUserName());
 
-        holder.itemView.setOnClickListener(v -> {
-            selectedPosition = position;
-            notifyDataSetChanged(); // Cập nhật giao diện để hiển thị trạng thái chọn
-        });
-
-        if (position == selectedPosition) {
-            holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.cloudwhite));
-        } else {
-            holder.itemView.setBackgroundColor(holder.itemView.getContext().getResources().getColor(R.color.white));
-        }
+        holder.itemView.setBackgroundColor(
+                position == selectedPosition ?
+                        holder.itemView.getContext().getResources().getColor(R.color.cloudwhite) :
+                        holder.itemView.getContext().getResources().getColor(R.color.white)
+        );
 
         holder.itemView.setOnClickListener(v -> {
             int oldPosition = selectedPosition;
@@ -76,12 +71,6 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         return selectedPosition;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
-
     public static class BookingViewHolder extends RecyclerView.ViewHolder {
         TextView txtBranch, txtBarber, txtDate, txtTime, txtService, txtUserName;
 
@@ -96,4 +85,3 @@ public class BookingAdapter extends RecyclerView.Adapter<BookingAdapter.BookingV
         }
     }
 }
-

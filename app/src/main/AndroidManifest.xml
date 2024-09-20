@@ -16,11 +16,11 @@
             android:name=".AdminHome"
             android:exported="false" />
         <activity
-            android:name=".Home"
-            android:exported="false" />
-        <activity
             android:name=".SignUp"
             android:exported="false" />
+        <activity
+            android:name=".SignIn"
+            android:exported="false"/>
         <activity
             android:name=".UserBookBarber"
             android:exported="false" />
@@ -44,7 +44,7 @@
             android:exported="false"/>
 
         <activity
-            android:name=".SignIn"
+            android:name=".Main"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

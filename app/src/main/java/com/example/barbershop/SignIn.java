@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -32,6 +33,7 @@ public class SignIn extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signin);
+
         // Ẩn ActionBar
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
@@ -78,21 +80,19 @@ public class SignIn extends AppCompatActivity {
                                         DocumentSnapshot documentSnapshot = task.getResult();
                                         if (documentSnapshot.exists()) {
                                             String role = documentSnapshot.getString("role");
+                                            Intent intent;
                                             if ("admin".equals(role)) {
                                                 // người dùng là admin
                                                 Toast.makeText(SignIn.this, "Đăng nhập thành công với vai trò admin!", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(SignIn.this, AdminHome.class)); // Màn hình admin
-                                                finish();
-                                            }
-                                            else {
+                                                intent = new Intent(SignIn.this, AdminHome.class); // Màn hình admin
+                                            } else {
                                                 // người dùng là user
                                                 Toast.makeText(SignIn.this, "Đăng nhập thành công!", Toast.LENGTH_SHORT).show();
-                                                startActivity(new Intent(SignIn.this, Home.class)); // Màn hình user
-                                                finish();
+                                                intent = new Intent(SignIn.this, Main.class); // Màn hình chứa Fragment
                                             }
+                                            startActivity(intent);
+                                            finish();
                                         }
-                                    } else {
-                                        Toast.makeText(SignIn.this, "Không thể lấy thông tin người dùng: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                     }
                                 }
                             });
@@ -112,4 +112,5 @@ public class SignIn extends AppCompatActivity {
             }
         });
     }
+
 }

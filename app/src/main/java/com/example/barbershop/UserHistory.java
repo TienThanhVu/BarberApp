@@ -1,15 +1,17 @@
 package com.example.barbershop;
 
 import android.os.Bundle;
-import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,46 +22,52 @@ public class UserHistory extends AppCompatActivity {
     private HistoryAdapter adapter;
     private List<History> historyList;
     private FirebaseFirestore db;
+    private FirebaseUser currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.user_history);
 
+        // Ẩn ActionBar
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().hide();
+        }
+
+        db = FirebaseFirestore.getInstance();
+        currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
         recyclerView = findViewById(R.id.recyclerViewHistory);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
         historyList = new ArrayList<>();
         adapter = new HistoryAdapter(historyList);
         recyclerView.setAdapter(adapter);
 
-        db = FirebaseFirestore.getInstance();
-        String bookingId = getIntent().getStringExtra("id");
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
 
-        loadHistory(bookingId);
-    }
-
-    private void loadHistory(String bookingId) {
-        Log.d("UserHistory", "Loading history for booking ID: " + bookingId);
-
-        // Truy cập vào stores, sau đó là documents của bookings
-        db.collection("stores").document(bookingId).collection("cancellation_history")
-                .orderBy("timestamp", Query.Direction.DESCENDING)
-                .get()
-                .addOnSuccessListener(queryDocumentSnapshots -> {
-                    historyList.clear();
-                    if (queryDocumentSnapshots.isEmpty()) {
-                        Log.d("UserHistory", "No history found for booking ID: " + bookingId);
-                    } else {
-                        for (DocumentSnapshot document : queryDocumentSnapshots) {
-                            History entry = document.toObject(History.class);
-                            if (entry != null) {
-                                historyList.add(entry);
+            // Truy vấn lịch sử của người dùng
+            db.collection("users").document(userId)
+                    .collection("history")
+                    .orderBy("timestamp", Query.Direction.DESCENDING)
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                History history = document.toObject(History.class);
+                                historyList.add(history);
                             }
+                            adapter.notifyDataSetChanged(); // Cập nhật dữ liệu cho RecyclerView
+                        } else {
+                            Toast.makeText(UserHistory.this, "Lỗi khi tải dữ liệu lịch sử", Toast.LENGTH_SHORT).show();
                         }
-                        Log.d("UserHistory", "History loaded successfully.");
-                    }
-                    adapter.notifyDataSetChanged();
-                })
-                .addOnFailureListener(e -> Log.e("UserHistory", "Error getting history", e));
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(UserHistory.this, "Lỗi khi lấy lịch sử", Toast.LENGTH_SHORT).show();
+                    });
+        } else {
+            Toast.makeText(this, "Người dùng chưa đăng nhập", Toast.LENGTH_SHORT).show();
+        }
     }
 }

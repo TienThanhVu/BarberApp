@@ -1,29 +1,23 @@
 package com.example.barbershop;
 
+import com.google.firebase.Timestamp;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class History {
-    private String action; // "Đặt đơn" hoặc "Hủy đơn"
-    private String bookingId;
-    private String barber;
-    private String branch;
-    private String date;
-    private String time;
-    private String service;
-    private String voucher;
-    private String address;
-    private String timestamp; // Thời gian ghi lại hành động này
+    private String action;
+    private String details;
+    private Timestamp timestamp;
 
-    public History(){}
+    // Constructor không đối số
+    public History() {
+    }
 
-    public History(String action, String bookingId, String barber, String branch, String date, String time, String service, String voucher, String address, String timestamp) {
+    public History(String action, String details, Timestamp timestamp) {
         this.action = action;
-        this.bookingId = bookingId;
-        this.barber = barber;
-        this.branch = branch;
-        this.date = date;
-        this.time = time;
-        this.service = service;
-        this.voucher = voucher;
-        this.address = address;
+        this.details = details;
         this.timestamp = timestamp;
     }
 
@@ -35,75 +29,36 @@ public class History {
         this.action = action;
     }
 
-    public String getBookingId() {
-        return bookingId;
+    public String getDetails() {
+        return details;
     }
 
-    public void setBookingId(String bookingId) {
-        this.bookingId = bookingId;
+    public void setDetails(String details) {
+        this.details = details;
     }
 
-    public String getBarber() {
-        return barber;
-    }
-
-    public void setBarber(String barber) {
-        this.barber = barber;
-    }
-
-    public String getBranch() {
-        return branch;
-    }
-
-    public void setBranch(String branch) {
-        this.branch = branch;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
-    }
-
-    public String getService() {
-        return service;
-    }
-
-    public void setService(String service) {
-        this.service = service;
-    }
-
-    public String getVoucher() {
-        return voucher;
-    }
-
-    public void setVoucher(String voucher) {
-        this.voucher = voucher;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getFormattedTimestamp() {
+        if (timestamp != null) {
+            Date date = timestamp.toDate();
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault());
+            return sdf.format(date);
+        }
+        return "Không xác định"; // Hoặc bất kỳ giá trị mặc định nào
+    }
+
+    @Override
+    public String toString() {
+        return "Dịch vụ: " +
+                "action='" + action + '\'' +
+                ", details='" + details + '\'' +
+                ", timestamp='" + getFormattedTimestamp() + '\'';
     }
 }

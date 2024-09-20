@@ -97,4 +97,15 @@ public class Booking {
     public void setUserName(String userName) {
         this.userName = userName;
     }
+
+    @Override
+    public String toString() {
+        return "Đơn dịch vụ: " + service + "\n" +
+                "Khách hàng: " + userName + "\n" +
+                "Địa chỉ: " + address + "\n" +
+                "Barber: " + barberName + "\n" +
+                "Ngày đặt: " + date + "\n" +
+                "Giờ đặt: " + time + "\n" +
+                "Voucher: " + voucher;
+    }
 }

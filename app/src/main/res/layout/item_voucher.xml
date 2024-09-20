@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@color/white">
 
     <TextView
         android:id="@+id/textViewCode"
@@ -12,7 +13,8 @@
         android:layout_height="wrap_content"
         android:text="Code"
         android:textSize="14sp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewPercent"
@@ -20,7 +22,8 @@
         android:layout_height="wrap_content"
         android:text="%"
         android:textSize="14sp"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textStyle="bold"/>
 
     <TextView
         android:id="@+id/textViewNote"

@@ -6,11 +6,10 @@
     android:layout_height="match_parent"
     tools:context=".Profile">
 
-
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <LinearLayout
         android:id="@+id/layoutHeader"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="120dp"
         android:layout_margin="10dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/trending_background"
@@ -36,29 +35,29 @@
             android:id="@+id/txtUsername"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:padding="1dp"
+            android:layout_marginTop="30dp"
+            android:padding="5dp"
             android:text="user name"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="20sp"
+            android:textSize="20dp"
             android:textStyle="bold"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/ImgUser" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
     <ScrollView
         android:id="@+id/scrollView2"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:background="#EEEFEF"
         android:overScrollMode="never"
         android:scrollbars="none"
-        app:layout_constraintBottom_toTopOf="@id/viewDivider"
-        app:layout_constraintTop_toBottomOf="@id/layoutHeader"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/layoutHeader"
         tools:layout_editor_absoluteX="0dp">
 
         <LinearLayout
@@ -275,6 +274,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:padding="10dp"
+                    android:layout_marginBottom="70dp"
                     android:text="Log Out"
                     android:textColor="@color/black"
                     android:textSize="16sp"
@@ -289,22 +289,5 @@
         </LinearLayout>
 
     </ScrollView>
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigation"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:backgroundTint="@color/white"
-        app:itemIconSize="40dp"
-        app:labelVisibilityMode="unlabeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/navigation_menu"/>
-
-    <View
-        android:id="@+id/viewDivider"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#00BCD4"
-        app:layout_constraintBottom_toTopOf="@+id/bottomNavigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

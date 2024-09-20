@@ -6,64 +6,26 @@
     android:padding="16dp">
 
     <TextView
-        android:id="@+id/txtViewAction"
+        android:id="@+id/textAction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Trang thái: " />
+        android:text="Trang thái: "
+        android:textColor="#F44336"
+        android:textStyle="bold"/>
 
     <TextView
-        android:id="@+id/txtViewBarber"
+        android:id="@+id/textDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Barber: "
-        android:layout_marginLeft="40dp"/>
+        android:text="Thông tin: "
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/black"/>
 
     <TextView
-        android:id="@+id/txtViewBranch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Branch"
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ngày đặt:"
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewTime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thời gian đặt: "
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewService"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dịch vụ: "
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewVoucher"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Voucher: "
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Địa chỉ: "
-        android:layout_marginLeft="40dp"/>
-
-    <TextView
-        android:id="@+id/txtViewTimestamp"
+        android:id="@+id/textTimestamp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thời gian ghi lại trạng thái: "
-        android:layout_marginLeft="40dp"/>
+        android:layout_marginLeft="40dp"
+        android:textColor="@color/black"/>
 </LinearLayout>
